@@ -31,8 +31,12 @@ export default class DownloadManager extends EventTarget {
         if( !jobExist ) {
             // cannot dispatch the same event twice => create new event
             job.addEventListener('updated', evt => this.dispatchEvent(new CustomEvent(evt.type, evt)));
-            this.queue[connector.id].push( job );
-            job.setStatus( statusDefinitions.queued );
+            if (chapter.manga.connector.label === "Yanmaga") {
+                console.log(`Did not queue Yanmaga: ${chapter.title} as it's broken right now`);
+            } else {
+                this.queue[connector.id].push( job );
+                job.setStatus( statusDefinitions.queued );
+            }
         }
     }
 

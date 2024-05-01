@@ -123,8 +123,8 @@ export default class MangaUpdateManager extends EventTarget {
          * the bookmark list is way shorter than a manga list of a connector => no performance issues expected
          */
         let mangas = this._bookmarkManager.bookmarks.filter(bookmark => {
-          let index = this._findIgnoreIndex(bookmark);
-          return index > -1 ? false : true;
+            let index = this._findIgnoreIndex(bookmark);
+            return index > -1 ? false : true;
         }).map( bookmark => {
             let manga = new Manga( this._getConnectorByID( bookmark.key.connector ), bookmark.key.manga, bookmark.title.manga );
             // determine if manga directory exist on disk
@@ -147,7 +147,7 @@ export default class MangaUpdateManager extends EventTarget {
      *
      */
     isIgnoreUpdateManga( manga ) {
-      return this._findIgnoreIndex(manga) > -1;
+        return this._findIgnoreIndex(manga) > -1;
     }
 
     /**
@@ -227,7 +227,7 @@ export default class MangaUpdateManager extends EventTarget {
                 if( this._canceled ) {
                     this.isUpdating = false;
                     this.dispatchEvent( new CustomEvent( events.progress, { detail: {
-                        state: 'cancled',
+                        state: 'canceled',
                         complete: true,
                     } } ) );
                     return;
@@ -249,8 +249,8 @@ export default class MangaUpdateManager extends EventTarget {
                     await this._updateChapters( manga );
 
                     let index = getFinishedIndex( manga );
-                    if(index === -1){
-                      finished.push( new Bookmark(manga) );
+                    if (index === -1) {
+                        finished.push( new Bookmark(manga) );
                     }
 
                 } catch( error ) {
@@ -280,18 +280,18 @@ export default class MangaUpdateManager extends EventTarget {
                         this._updateMangasList.sort( ( a, b ) => {
                             let finA = getFinishedIndex( a );
                             let finB = getFinishedIndex( b );
-                            if ( finA === -1 && finB !== -1){
+                            if ( finA === -1 && finB !== -1) {
                                 return 1;
-                            } else if ( finA !== -1 && finB === -1){
+                            } else if ( finA !== -1 && finB === -1) {
                                 return -1;
                             }
                             return a.title.toLowerCase() < b.title.toLowerCase() ? -1 : 1;
                         });
                         // (2) find last finished index for continuing update process:
-                        for(let j=0, size = this._updateMangasList.length; i < size; ++j){
+                        for(let j=0, size = this._updateMangasList.length; i < size; ++j) {
                             let curr = this._updateMangasList[j];
                             let finCurr = getFinishedIndex( curr );
-                            if(finCurr === -1){
+                            if (finCurr === -1) {
                                 i = j - 1;
                                 break;
                             }

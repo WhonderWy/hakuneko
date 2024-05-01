@@ -39,7 +39,7 @@ export default class Yanmaga extends SpeedBinb {
                                 }
                             }));
                     }
-                 }, 1000);
+                }, 1000);
             });
         `;
 
