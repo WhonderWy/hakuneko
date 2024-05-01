@@ -100,6 +100,20 @@
             .include-in-update .fas.include-in-update {
                 color: var(--update-bookmark-chapters-include-color) !important;
             }
+            .bookmark {
+                cursor: pointer;
+                color: var(--bookmark-button-default-color);
+                text-shadow: var(--bookmark-button-shadow);
+            }
+            .bookmarkAdd {
+                color: var(--bookmark-button-add-color) !important;
+            }
+            .bookmarkDelete {
+                color: var(--bookmark-button-delete-color) !important;
+            }
+            .bookmarkInvalid {
+                color: var(--bookmark-button-invalid-color) !important;
+            }
         </style>
         <div class="header separator">
             <table border="0" cellpadding="0" cellspacing="0" width="100%">
@@ -156,12 +170,15 @@
             </template>
             <template is="dom-repeat" items="[[ mangaList ]]" filter="[[ filterMangas(mangaPattern) ]]" rendered-item-count="{{ mangaFilteredCount }}">
                 <li class$="manga [[ item.status ]] [[ getMangaClass(selectedManga, item.id) ]]" title$="[[ item.title ]]&#10;[[ item.connector.label ]]" on-click="onMangaClicked">
-                  <template is="dom-if" if="[[ processShowUpdateMangaStatus(item) ]]">
-                      <span title$="[[ getUpdateBookmarkChaptersTitle(item._updateBookmarkChaptersStatus) ]]" class$="[[ item._updateBookmarkChaptersStatus ]]" on-click="toggleUpdateBookmarkChapters">
-                          <i class="far fa-arrow-alt-circle-down"></i>
-                          <i class$="fas fa-suberlay [[ item._updateBookmarkChaptersStatus ]] [[ getUpdateBookmarkChaptersClass(item._updateBookmarkChaptersStatus) ]] toggle-bookmark-chapters-update"></i>
-                      </span>
-                </template>[[ item.title ]]</li>
+                    <template is="dom-if" if="[[ processShowUpdateMangaStatus(item) ]]">
+                        <span title$="[[ getUpdateBookmarkChaptersTitle(item._updateBookmarkChaptersStatus) ]]" class$="[[ item._updateBookmarkChaptersStatus ]]" on-click="toggleUpdateBookmarkChapters">
+                            <i class="far fa-arrow-alt-circle-down"></i>
+                            <i class$="fas fa-suberlay [[ item._updateBookmarkChaptersStatus ]] [[ getUpdateBookmarkChaptersClass(item._updateBookmarkChaptersStatus) ]] toggle-bookmark-chapters-update"></i>
+                        </span>
+                    </template>
+                    <i class$="fas fa-suberlay [[ getBookmarkClass(item) ]] bookmark"></i>
+                    [[ item.title ]]
+                </li>
             </template>
         </ul>
         <!-- https://github.com/PolymerElements/iron-list/issues/536 -->
@@ -216,6 +233,7 @@
                 super.ready();
                 // the bookmark connector which is required for some exceptional handling
                 this.bookmarkConnectorID = 'bookmarks';
+                this.bookmarkList = Engine.BookmarkManager.bookmarks;
                 // currently active manga list
                 this.mangaList = this['mangaList'];
                 // register callbacks for published events
@@ -300,6 +318,26 @@
              */
             getMangaClass( selectedManga, id ) {
                 return ( !selectedManga || selectedManga.id !== id ? '' : 'focus' );
+            }
+
+            /**
+             *
+             */
+            getBookmarkClass( manga, trigger ) {
+                if( manga && this.bookmarkList && Array.isArray(this.bookmarkList)) {
+                    if( manga.connector instanceof Connector ) {
+                        let index = this.bookmarkList.findIndex( bookmark => {
+                            return ( bookmark.key.manga === manga.id && bookmark.key.connector === manga.connector.id );
+                        } );
+                        if( index > -1 ) {
+                            return 'fa-minus-circle bookmarkDelete';
+                        }
+                        return 'fa-plus-circle bookmarkAdd';
+                    } else {
+                        return 'fa-ban bookmarkInvalid';
+                    }
+                }
+                return '';
             }
 
             /**
