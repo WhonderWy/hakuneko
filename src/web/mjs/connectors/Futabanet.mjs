@@ -17,7 +17,7 @@ export default class Futabanet extends SpeedBinb {
 
     async _getMangaFromURI(uri) {
         let request = new Request(uri, this.requestOptions);
-        let data = await this.fetchDOM(request, 'div.works__list div.list__text-sp.mbOn p');
+        let data = await this.fetchDOM(request, '#list__text > div:nth-child(2) > h2');
         let id = uri.pathname;
         let title = data[0].textContent.trim();
         return new Manga(this, id, title);
