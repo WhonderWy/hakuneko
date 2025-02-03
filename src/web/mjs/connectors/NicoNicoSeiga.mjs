@@ -9,6 +9,7 @@ export default class NicoNicoSeiga extends Connector {
         super.label = 'ニコニコ静画 (niconico seiga)';
         this.tags = [ 'manga', 'japanese' ];
         this.url = "https://manga.nicovideo.jp"; // 'https://seiga.nicovideo.jp'
+        this.apiURL = "https://seiga.nicovideo.jp";
         this.links = {
             login: 'https://account.nicovideo.jp/login'
         };
