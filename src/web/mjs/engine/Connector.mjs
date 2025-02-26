@@ -433,7 +433,9 @@ export default class Connector {
         const response = await fetch(request.clone());
         const randomDelay = Math.random() * 100;
         if (retries === undefined || retries === null || retries > 0) {
-            retries = 1;
+            if (retries === undefined || retries === null) {
+                retries = 1;
+            }
             if (response.status === 429) {
                 await this.wait(2500 + randomDelay);
                 return this.fetchDOM(request, selector, retries - 1);
