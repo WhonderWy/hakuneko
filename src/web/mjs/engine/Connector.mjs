@@ -431,7 +431,7 @@ export default class Connector {
             request = new Request(request.href, this.requestOptions);
         }
         const response = await fetch(request.clone());
-        const randomDelay = Math.random() * 1001;
+        const randomDelay = Math.random() * 1337;
         if (retries === undefined || retries === null || retries > 0) {
             if (retries === undefined || retries === null) {
                 retries = 1;
