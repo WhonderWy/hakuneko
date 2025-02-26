@@ -423,7 +423,6 @@ export default class Connector {
      * and get all elements matching the given CSS selector.
      */
     async fetchDOM(request, selector, retries, encoding) {
-        retries = retries || 0;
         if(typeof request === 'string') {
             request = new Request(request, this.requestOptions);
         }
@@ -432,9 +431,16 @@ export default class Connector {
             request = new Request(request.href, this.requestOptions);
         }
         const response = await fetch(request.clone());
-        if((response.status === 429 || response.status >= 500) && retries > 0) {
-            await this.wait(2500);
-            return this.fetchDOM(request, selector, retries - 1);
+        const randomDelay = Math.random() * 100;
+        if (retries === undefined || retries === null || retries > 0) {
+            retries = 1;
+            if (response.status === 429) {
+                await this.wait(2500 + randomDelay);
+                return this.fetchDOM(request, selector, retries - 1);
+            } else if (response.status >= 500) {
+                await this.wait(2500 + 1337 + randomDelay);
+                return this.fetchDOM(request, selector, retries - 1);
+            }
         }
         const content = response.headers.get('content-type');
         if(response.status === 200 || content.includes('text/html')) {
