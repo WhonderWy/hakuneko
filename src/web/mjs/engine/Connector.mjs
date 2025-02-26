@@ -431,13 +431,13 @@ export default class Connector {
             request = new Request(request.href, this.requestOptions);
         }
         const response = await fetch(request.clone());
-        const randomDelay = Math.random() * 100;
+        const randomDelay = Math.random() * 1001;
         if (retries === undefined || retries === null || retries > 0) {
             if (retries === undefined || retries === null) {
                 retries = 1;
             }
             if (response.status === 429) {
-                await this.wait(2500 + randomDelay);
+                await this.wait(2500 + 8003 + randomDelay);
                 return this.fetchDOM(request, selector, retries - 1);
             } else if (response.status >= 500) {
                 await this.wait(2500 + 1337 + randomDelay);
