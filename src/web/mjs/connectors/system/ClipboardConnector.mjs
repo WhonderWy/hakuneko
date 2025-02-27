@@ -78,13 +78,13 @@ export default class ClipboardConnector {
                     throw new Error('To many matching connectors found for URL ' + uri.href);
                 }
                 if (uri.hostname in connectorHits) {
+                    connectorHits[uri.hostname]++;
                     await new Promise(resolve => {
                         setTimeout(resolve, Math.random() * 8080 + 1337 * connectorHits[uri.hostname]);
                     });
                 } else {
-                    connectorHits[uri.hostname] = 0;
+                    connectorHits[uri.hostname] = 1;
                 }
-                connectorHits[uri.hostname]++;
                 return await connectors[0].getMangaFromURI(uri);
             } catch (error) {
                 console.warn('CLIPBOARD:', line, error);
