@@ -30,7 +30,7 @@
   },
   "scripts": {
     "postinstall": "cd src/app && npm install --no-optional",
-    "start": "npm run start:dev",
+    "start": "WAYLAND_DISPLAY=wayland-0 XDG_SESSION_TYPE=wayland npm run start:dev --enable-features=UseOzonePlatform --ozone-platform=wayland",
     "start:dev": "electron . --update-url=DISABLED --cache-directory=./src/web --disable-http-cache",
     "start:build": "npm run build:web && electron . --update-url=DISABLED --cache-directory=./build/latest",
     "lint": "npm run lint:app && npm run lint:web",
