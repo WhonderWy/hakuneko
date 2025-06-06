@@ -11,6 +11,7 @@ export default class ComicBushi extends CoreView {
         this.path = ['/'];
         this.queryManga = 'section#lineup ul.lineup-list div.lineup-item a';
         this.queryMangaTitle = 'h5.title';
+        this.queryMangaTitleFromURI = 'h1.series-h-title';
     }
 
     async _getMangasFromPage(page) {
