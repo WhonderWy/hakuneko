@@ -46,5 +46,11 @@
     "test:app": "jest --color --reporters=default --reporters=jest-junit --testPathPattern=/src/app",
     "test:web": "jest --color --reporters=default --reporters=jest-junit --testPathPattern=/src/web",
     "test:e2e": "jest --color --reporters=default --reporters=jest-junit --testPathPattern=/src/__tests__"
+  },
+  "allowScripts": {
+    "core-js@2.6.12": true,
+    "electron@8.3.4": true,
+    "github:devsnek/node-register-scheme#e7cc9a63a1f512565da44cb57316d9fb10750e17": true,
+    "unrs-resolver@1.11.1": true
   }
 }
